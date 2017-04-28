@@ -1,0 +1,57 @@
+<h1>{{title}}</h1>
+
+<div id="newLake">
+    <h3>Add a new Lake to collection</h3>
+
+    <!--Error message area.-->
+    <div id="messagesDiv">
+        {{#each messages.error}}
+            <p class="error_msg">{{this}}</p>
+        {{/each}}
+    </div>
+
+    <!--New lake form.-->
+    <form action="/" method="POST">
+        Lake Name: <input name="lakeName" type="text" required>
+        Run Time: <input name="runTimes" type="number" min="1" step="any">
+        <input type="hidden" name="runDate">
+        <input type="submit" name="addLake" value="Add new Lake">
+    </form>
+</div>
+
+<!--Section with all lakes and their data.-->
+<div id="oldLakes">
+    <h3>Here are all the lakes you have run</h3>
+
+    {{#each lakes}}
+        <p>Lake Name: {{this.lakeName}}</p>
+        <p>Best Run Time: {{this.runTimes.[0]}} minutes</p>
+
+        <p>All Times:</p>
+        <ul>
+            {{#each this.runTimes}}
+                <!--Shows the run time and the formatted date.-->
+                <!--The ../runDate is looking at the parent object's runDate-->
+                <!--since it is in a nested foreach loop.-->
+                <li>{{this}} minutes on {{dateFormatter ../runDate}}</li>
+            {{else}}
+                <li>Still no runs</li>
+            {{/each}}
+        </ul>
+
+        <!--New time form.-->
+        <p>Add new time</p>
+        <form action="/addTime" method="POST">
+            <input name="runTime" type="number" min="1" step="any">
+            <input name="_id" type="hidden" value="{{this._id}}">
+            <input name="lakeName" type="hidden" value="{{this.lakeName}}">
+            <input name="add" type="submit" value="Add new time">
+        </form>
+    {{else}}
+        <p>You haven't run any lakes...slacker</p>
+    {{/each}}
+</div>
+
+
+<!--helped with foreach loop:-->
+<!--http://stackoverflow.com/questions/12297959/access-properties-of-the-parent-with-a-handlebars-each-loop-->

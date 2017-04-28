@@ -1,3 +1,3 @@
-# express
+This should be the advanced and the essentials in one
 
-Just the files created from running `express -e --hbs`.
+Stock overflow and help from Mark Fox helped finish this lab
